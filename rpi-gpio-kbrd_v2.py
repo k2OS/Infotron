@@ -6,6 +6,8 @@ based on rpi-gpio-kbrd.py by Chris Swan 9 Aug 2012
 requires uinput kernel module (sudo modprobe uinput)
 requires python-uinput (git clone https://github.com/tuomasjjrasanen/python-uinput)
 requires (from http://pypi.python.org/pypi/RPi.GPIO/0.3.1a)
+TESTING
+
 """
 
 import uinput
