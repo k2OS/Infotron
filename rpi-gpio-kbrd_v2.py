@@ -1,19 +1,21 @@
-""" rpi-gpio-kbrd.py by Chris Swan 9 Aug 2012
-GPIO Keyboard driver for Raspberry Pi for use with 80s 5 switch joysticks
-*** This did not work with AdvMAME - failed attempt - may be useful for another project
-based on python-uinput/examples/keyboard.py by tuomasjjrasanen
-https://github.com/tuomasjjrasanen/python-uinput/blob/master/examples/keyboard.py
+""" 
+Handles input from huge buttons attached to GPIO-pins on the Infotron RPi
+More details on the project here: https://github.com/k2OS/Infotron
+
+based on rpi-gpio-kbrd.py by Chris Swan 9 Aug 2012
 requires uinput kernel module (sudo modprobe uinput)
 requires python-uinput (git clone https://github.com/tuomasjjrasanen/python-uinput)
 requires (from http://pypi.python.org/pypi/RPi.GPIO/0.3.1a)
-for detailed usage see http://blog.thestateofme.com/2012/08/10/raspberry-pi-gpio-joystick/
 """
 
 import uinput
 import time
 import RPi.GPIO as GPIO
 
+# set which mode we want to talk to the board in (BOARD or BCM as far as I remember)
 GPIO.setmode(GPIO.BOARD)
+
+#which pins do we want to listen to/send events to
 GPIO.setup(11,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 #GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #GPIO.setup(15, GPIO.IN, pull_up_down=GPIO.PUD_UP)
