@@ -6,7 +6,11 @@ based on rpi-gpio-kbrd.py by Chris Swan 9 Aug 2012
 requires uinput kernel module (sudo modprobe uinput)
 requires python-uinput (git clone https://github.com/tuomasjjrasanen/python-uinput)
 requires (from http://pypi.python.org/pypi/RPi.GPIO/0.3.1a)
-TESTING
+
+
+DESCRIPTION:
+
+
 
 """
 
@@ -17,12 +21,19 @@ import RPi.GPIO as GPIO
 # set which mode we want to talk to the board in (BOARD or BCM as far as I remember)
 GPIO.setmode(GPIO.BOARD)
 
-#which pins do we want to listen to/send events to
+#which pins do we want to listen to/send events to - and which mode - remember to update 'events = ' below
+#we are using Pullup, so pins have to be pulled down for 'input'
+# input pins
 GPIO.setup(11,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 #GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #GPIO.setup(15, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+# output pins
+# pin 12 is used to turn on/off monitor - default off
+GPIO.setup(12,GPIO.OUT) 
+# GPIO.output(12, GPIO.LOW)
 
 #events = (uinput.KEY_P,uinput.KEY_H,uinput.KEY_L,uinput.KEY_F,uinput.KEY_A)
 events = (uinput.KEY_P,)
