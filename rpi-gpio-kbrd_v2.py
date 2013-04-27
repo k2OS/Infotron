@@ -22,6 +22,13 @@ import uinput
 import time
 import RPi.GPIO as GPIO
 
+
+# pin definitions (BOARD mode)
+# 12 - power, outpout
+# 11 - input
+# 13 - input
+# 10 - input 
+
 # set which mode we want to talk to the board in (BOARD or BCM as far as I remember)
 GPIO.setmode(GPIO.BOARD)
 
@@ -61,7 +68,8 @@ left = True
 right = True
 
 # master timer - time in seconds before monitor is turned off and JS told to reset to default slide
-timeout = 7200
+# default should be 7200 seconds
+timeout = 3600
 lastupdate = time.time()
 # is the power on or off - 0 = 0ff, 1 = on
 powerstatus = 0
@@ -74,9 +82,12 @@ while True:
  # if fire and GPIO.input(7):  # Fire button released
  #   fire = False
  #   device.emit(uinput.KEY_LEFTCTRL, 0) # Release Left Ctrl key
+  # test if timeout has been reached
   if ((time.time() - lastupdate > timeout) and poweron):
     print "timeout reached"
     powerstatus = 0
+    # send T to JS
+    #device.emit(uinput.KEY_T, 1) # Send Timeout-message to JS
     # and turn off the display
     #GPIO.output(12,LOW)
 
@@ -102,12 +113,14 @@ while True:
   if down and GPIO.input(13):  # Left button released
     left = False
     lastupdate = time.time()
-    device.emit(uinput.KEY_left, 0) # Release Left key
+    device.emit(uinput.KEY_RIGHT, 0) # Release Left key
 
-#  if (not left) and (not GPIO.input(15)):  # Left button pressed
-#    left = True
-#    device.emit(uinput.KEY_LEFT, 1) # Press Left key
-#  if left and GPIO.input(15):  # Left button released
-#    left = False
-#    device.emit(uinput.KEY_LEFT, 0) # Release Left key
-
+  # RIGHT button
+  if (not right) and (not GPIO.input(10)):  # Right button pressed
+    right = True
+    lastupdate = time.time()
+    device.emit(uinput.KEY_RIGHT, 1) # Press Left key
+  if down and GPIO.input(10):  # Right button released
+    right = False
+    lastupdate = time.time()
+    device.emit(uinput.KEY_RIGHT, 0) # Release Left key
