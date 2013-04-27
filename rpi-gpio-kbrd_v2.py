@@ -7,15 +7,15 @@ More details on the project here: https://github.com/k2OS/Infotron
 based on rpi-gpio-kbrd.py by Chris Swan 9 Aug 2012
 requires uinput kernel module (sudo modprobe uinput)
 requires python-uinput (git clone https://github.com/tuomasjjrasanen/python-uinput)
-requires (from http://pypi.python.org/pypi/RPi.GPIO/0.3.1a)
+requires RPI.GIO (from http://pypi.python.org/pypi/RPi.GPIO/0.3.1a)
 
 DESCRIPTION
- - master timer needed to control if the monítor should be turned off (say.. 2 minutes after inactivity)
-- when timeout is reached, send key event to JS to reset to default slide/screen
+- master timer needed to control if the monítor should be turned off (say.. 2 minutes after inactivity)
+  - when timeout is reached, send key event to JS to reset to default slide/screen
 - back/forwards 'buttons' to 'navigate' (captured by JS - turns monitor on as well and navigates current slidehow)
  - on/toggle button to turn on the monitor and then control which slideshow is viewed (captured by JS)
  - one output to control a relay (for turning monitor on and off) - set to pin 12 (board-mode) for now 
- - maybe an additional output to control a little light.. a monitor etc.. could be turned on/off with a single common output
+ - maybe an additional output to control a little light.. (monitor etc. could be turned on/off with a single common output)
 
 """
 import uinput
@@ -41,6 +41,9 @@ GPIO.setup(12,GPIO.OUT)
 # GPIO.output(12, GPIO.LOW)
 
 # remember to update this list with events we want to be able to flag up and down - remember ',' at the end
+# P, LEFT and RIGHT are used to navigate slides. They all turn on the monitor as well. 
+# T is for 'Timeout' and is a key sent to JS to tell that the timeout has been reached and that the slideshow should be reset to 
+# standard.
 events = (
 	uinput.key_P,
 	uinput.key_T,
