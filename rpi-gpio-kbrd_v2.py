@@ -99,34 +99,34 @@ while True:
 
   # what happens when we press a button..
   # power button
-  if (not power) and (not GPIO.input(11)):  # power/program button pressed
+  if (not power) and (not GPIO.input(7)):  # power/program button pressed
     power = True
     lastupdate = time.time()
     device.emit(uinput.KEY_P, 1) # power pressed - program will be changed by JS if necessary
     # power on the display
     # GPIO.output(12,HIGH)
     powerstatus = 1
-  if up and GPIO.input(11):  # power button released
+  if up and GPIO.input(7):  # power button released
     power = False
     lastupdate = time.time()
     device.emit(uinput.KEY_P, 0) # Release Up key
 
   # LEFT button
-  if (not left) and (not GPIO.input(13)):  # Left button pressed
+  if (not left) and (not GPIO.input(11)):  # Left button pressed
     left = True
     lastupdate = time.time()
     device.emit(uinput.KEY_LEFT, 1) # Press Left key
-  if down and GPIO.input(13):  # Left button released
+  if down and GPIO.input(11):  # Left button released
     left = False
     lastupdate = time.time()
     device.emit(uinput.KEY_RIGHT, 0) # Release Left key
 
   # RIGHT button
-  if (not right) and (not GPIO.input(10)):  # Right button pressed
+  if (not right) and (not GPIO.input(13)):  # Right button pressed
     right = True
     lastupdate = time.time()
     device.emit(uinput.KEY_RIGHT, 1) # Press Left key
-  if down and GPIO.input(10):  # Right button released
+  if down and GPIO.input(13):  # Right button released
     right = False
     lastupdate = time.time()
     device.emit(uinput.KEY_RIGHT, 0) # Release Left key
