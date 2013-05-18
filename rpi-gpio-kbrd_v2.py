@@ -41,17 +41,16 @@ GPIO.setmode(GPIO.BOARD)
 #which pins do we want to listen to/send events to - and which mode - remember to update 'events = ' below
 #we are using Pullup, so pins have to be pulled down for 'input'
 # input pins
-GPIO.setup(11,GPIO.IN,pull_up_down=GPIO.PUD_UP)
+GPIO.setup(7,GPIO.IN,pull_up_down=GPIO.PUD_UP)
+#GPIO.setup(11, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-#GPIO.setup(15, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-#GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-#GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 # output pins
-# pin 12 is used to turn on/off monitor - default off
-GPIO.setup(12,GPIO.OUT) 
-# GPIO.output(12, GPIO.LOW)
+# pin 18+22 is used to turn on/off monitor - default off
+GPIO.setup(18,GPIO.OUT) 
+# GPIO.output(18, GPIO.LOW)
+GPIO.setup(22,GPIO.OUT) 
+# GPIO.output(22, GPIO.LOW)
 
 # remember to update this list with events we want to be able to flag up and down - remember ',' at the end
 # P, LEFT and RIGHT are used to navigate slides. They all turn on the monitor as well. 
