@@ -17,6 +17,11 @@ DESCRIPTION
  - one output to control a relay (for turning monitor on and off) - set to pin 12 (board-mode) for now 
  - maybe an additional output to control a little light.. (monitor etc. could be turned on/off with a single common output)
 
+Pins are taken from here: 
+http://www.hobbytronics.co.uk/image/data/tutorial/raspberry-pi/gpio-pinout.jpg
+
+NOTE: There is a difference between the board made and the pin layout below 
+- the pin layout has to be changed!!!!
 """
 import uinput
 import time
@@ -24,10 +29,11 @@ import RPi.GPIO as GPIO
 
 
 # pin definitions (BOARD mode)
-# 12 - power, outpout
+# 18+22 - power, outpout ( two relays to break both sides of the cable)
+# 7  - input
 # 11 - input
-# 13 - input
-# 10 - input 
+# 13 - input 
+# 15 - input 
 
 # set which mode we want to talk to the board in (BOARD or BCM as far as I remember)
 GPIO.setmode(GPIO.BOARD)
