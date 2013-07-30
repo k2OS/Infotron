@@ -140,6 +140,6 @@ try:
 	    right = False
 	    lastupdate = time.time()
 	    device.emit(uinput.KEY_RIGHT, 0) # Release Right key
-	  time.sleep(0.01)
+	  time.sleep(0.01) # this ensures python doesn't eat all of the CPU
 except KeyboardInterrupt:
    GPIO.cleanup()
