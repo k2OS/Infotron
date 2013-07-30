@@ -2,7 +2,7 @@
 
 """ 
 Handles input from huge buttons attached to GPIO-pins on the Infotron RPi
-More details on the project here: https://github.com/k2OS/Infotron
+More details on the project here: https://labitat.dk/wiki/Infotron
 
 based on rpi-gpio-kbrd.py by Chris Swan 9 Aug 2012
 requires uinput kernel module (sudo modprobe uinput)
@@ -48,11 +48,11 @@ try:
 	GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 	# output pins
-	# pin 18+22 is used to turn on/off monitor - default off
+	# pin 18+22 is used to turn on/off monitor - default on for 2 minutes
 	GPIO.setup(18,GPIO.OUT) 
-	GPIO.output(18, GPIO.LOW)
+	GPIO.output(18, GPIO.HIGH)
 	GPIO.setup(22,GPIO.OUT) 
-	GPIO.output(22, GPIO.LOW)
+	GPIO.output(22, GPIO.HIGH)
 
 	# remember to update this list with events we want to be able to flag up and down - remember ',' at the end
 	# P, LEFT and RIGHT are used to navigate slides. They all turn on the monitor as well. 
@@ -76,10 +76,10 @@ try:
 
 	# master timer - time in seconds before monitor is turned off and JS told to reset to default slide
 	# default should be 7200 seconds
-	timeout = 3600
+	timeout = 60
 	lastupdate = time.time()
 	# is the power on or off - 0 = 0ff, 1 = on
-	powerstatus = 0
+	powerstatus = 1
 
 
 	while True:
@@ -90,13 +90,15 @@ try:
 	 #   fire = False
 	 #   device.emit(uinput.KEY_LEFTCTRL, 0) # Release Left Ctrl key
 	  # test if timeout has been reached
-	  if ((time.time() - lastupdate > timeout) and poweron):
-	    print "timeout reached"
+	  if ((time.time() - lastupdate > timeout) and powerstatus):
+	    #print "timeout reached"
 	    powerstatus = 0
 	    # send T to JS
-	    #device.emit(uinput.KEY_T, 1) # Send Timeout-message to JS
+	    device.emit(uinput.KEY_T, 1) # Send Timeout-message to JS
+	    device.emit(uinput.KEY_T, 0) # Send Timeout-message to JS
 	    # and turn off the display
-	    #GPIO.output(12,LOW)
+	    GPIO.output(18,GPIO.LOW)
+	    GPIO.output(22,GPIO.LOW)
 
 	  # what happens when we press a button..
 	  # power button
@@ -105,7 +107,8 @@ try:
 	    lastupdate = time.time()
 	    device.emit(uinput.KEY_P, 1) # power pressed - program will be changed by JS if necessary
 	    # power on the display
-	    # GPIO.output(12,HIGH)
+	    GPIO.output(18,GPIO.HIGH)
+	    GPIO.output(22,GPIO.HIGH)
 	    powerstatus = 1
 	  if power and GPIO.input(7):  # power button released
 	    power = False
@@ -117,6 +120,9 @@ try:
 	    left = True
 	    lastupdate = time.time()
 	    device.emit(uinput.KEY_LEFT, 1) # Press Left key
+	    GPIO.output(18,GPIO.HIGH)
+	    GPIO.output(22,GPIO.HIGH)
+	    powerstatus = 1
 	  if left and GPIO.input(11):  # Left button released
 	    left = False
 	    lastupdate = time.time()
@@ -127,9 +133,13 @@ try:
 	    right = True
 	    lastupdate = time.time()
 	    device.emit(uinput.KEY_RIGHT, 1) # Press Left key
+	    GPIO.output(18,GPIO.HIGH)
+	    GPIO.output(22,GPIO.HIGH)
+	    powerstatus = 1
 	  if right and GPIO.input(13):  # Right button released
 	    right = False
 	    lastupdate = time.time()
 	    device.emit(uinput.KEY_RIGHT, 0) # Release Right key
+	  time.sleep(0.01)
 except KeyboardInterrupt:
    GPIO.cleanup()
