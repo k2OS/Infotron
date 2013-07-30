@@ -20,8 +20,6 @@ DESCRIPTION
 Pins are taken from here: 
 http://www.hobbytronics.co.uk/image/data/tutorial/raspberry-pi/gpio-pinout.jpg
 
-NOTE: There is a difference between the board made and the pin layout below 
-- the pin layout has to be changed!!!!
 """
 
 try:
@@ -35,7 +33,7 @@ try:
 	# 7  - input
 	# 11 - input
 	# 13 - input 
-	# 15 - input 
+	# 15 - input - not used for now
 
 	# set which mode we want to talk to the board in (BOARD or BCM as far as I remember)
 	GPIO.setmode(GPIO.BOARD)
